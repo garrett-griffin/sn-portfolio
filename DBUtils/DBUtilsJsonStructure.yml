@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  title: Table and Field Definition API
+  description: API to define tables and fields for creation in a system.
+  version: 1.0.0
+paths:
+  /define:
+    post:
+      summary: Define tables and fields
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                tables:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        pattern: '^u_.*$'
+                        example: u_my_first_table
+                        description: "Table name must start with 'u_'."
+                      label:
+                        type: string
+                        example: My First Table
+                      extend:
+                        type: string
+                        pattern: '^u_.*$'
+                        example: u_base_table
+                        description: "Extended table name must start with 'u_'."
+                      isExtendable:
+                        type: boolean
+                        example: true
+                      role:
+                        type: string
+                        example: admin_role
+                      configAccess:
+                        type: boolean
+                        example: true
+                      publicAccess:
+                        type: boolean
+                        example: false
+                fields:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      table:
+                        type: string
+                        pattern: '^u_.*$'
+                        example: u_my_first_table
+                        description: "Table name must start with 'u_'."
+                      name:
+                        type: string
+                        pattern: '^u_.*$'
+                        example: u_my_first_field
+                        description: "Field name must start with 'u_'."
+                      label:
+                        type: string
+                        example: My First Field
+                      type:
+                        type: string
+                        enum:
+                          - audio
+                          - boolean
+                          - calendar_date_time
+                          - choice
+                          - color
+                          - conditions
+                          - condition_string
+                          - currency
+                          - currency2
+                          - data_structure
+                          - decimal
+                          - document_id
+                          - domain_id
+                          - due_date
+                          - field_name
+                          - file_attachment
+                          - float
+                          - geo_point
+                          - glide_date
+                          - glide_date_time
+                          - glide_duration
+                          - glide_encrypted
+                          - glide_list
+                          - glide_time
+                          - glide_utc_time
+                          - html
+                          - icon
+                          - insert_timestamp
+                          - integer
+                          - ip_addr
+                          - journal
+                          - journal_input
+                          - journal_list
+                          - language
+                          - longint
+                          - nds_icon
+                          - password
+                          - password2
+                          - percent_complete
+                          - phone_number_e164
+                          - price
+                          - public_image
+                          - reference
+                          - script
+                          - script_plain
+                          - simple_name_values
+                          - string
+                          - string_full_utf8
+                          - table_name
+                          - translated_html
+                          - translated_text
+                          - url
+                          - user_image
+                          - variables
+                          - video
+                          - wiki_text
+                          - workflow
+                        example: choice
+                      referenceTable:
+                        type: string
+                        pattern: '^u_.*$'
+                        example: u_reference_table
+                        description: "Reference table name must start with 'u_'."
+                      defaultValue:
+                        type: string
+                        example: default_choice
+                        description: "Default value for the field."
+                      choices:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                              example: choice_value_1
+                              description: "Value of the choice."
+                            label:
+                              type: string
+                              example: Choice 1
+                              description: "Label of the choice."
+                            language:
+                              type: string
+                              example: en
+                              description: "Language of the choice."
+                            inactive:
+                              type: boolean
+                              example: false
+                              description: "Whether the choice is inactive."
+                            sequence:
+                              type: integer
+                              example: 0
+                              description: "Sequence order of the choice."
+                      useDependentField:
+                        type: boolean
+                        example: false
+                        description: "Whether the field uses a dependent field."
+                      dependentOnField:
+                        type: string
+                        example: "u_my_first_field"
+                        description: "What field this field is dependent on."
+              required:
+                - tables
+                - fields
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Bad request
